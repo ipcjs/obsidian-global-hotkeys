@@ -16,6 +16,10 @@ In the `Global Hotkeys` settings, you can enter a system-wide key combination th
 will perform the specified command. The key combination is specified following
 [Electron's Accelerators](https://www.electronjs.org/docs/api/accelerator).
 
+The plugin also defines the following special keys:
+
+`SuperOrControl`(or `SuperOrCtrl` for short): Represents `Control` on macOS and `Windows` on Linxu and Windows.
+
 ## To-Do
 
 - Improve hotkey settings

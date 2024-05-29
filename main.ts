@@ -1,6 +1,26 @@
 import { App, Modal, Notice, Platform, Plugin, PluginSettingTab, Setting } from 'obsidian';
+import * as os from 'node:os'
 const remote = require('electron').remote;
 const globalShortcut = remote.globalShortcut;
+
+const KEY_MAP_MACOS = {
+  'SuperOrControl': 'Control',
+  'SuperOrCtrl': 'Ctrl',
+};
+
+const KEY_MAP_PC = {
+  'SuperOrControl': 'Super',
+  'SuperOrCtrl': 'Super',
+};
+
+const KEY_MAP: Record<string, string> = os.platform() === 'darwin' ? KEY_MAP_MACOS : KEY_MAP_PC
+
+function remapHotkey(hotkey: string) {
+  return hotkey.split('+')
+    .map(it => it.trim())
+    .map(it => KEY_MAP[it] ?? it)
+    .join('+')
+}
 
 interface GlobalHotkeysPluginSettings {
   accelerators: { [key: string]: string };
@@ -197,9 +217,10 @@ class GlobalShortcutSettingTab extends PluginSettingTab {
         .addText(text => text
                  .setPlaceholder('Hotkey')
                  .setValue(accelerator)
-                 .onChange(async (value) => {
+                 .onChange(async (rawValue) => {
                    const inputEl = setting.components[0].inputEl;
-                   if (value) {
+                   if (rawValue) {
+                     const value = remapHotkey(rawValue)
                      this.plugin.registerGlobalShortcut(cmd, value, async (success) => {
                        if (success) {
                          inputEl.classList.remove('invalid-accelerator');
