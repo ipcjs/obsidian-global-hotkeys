@@ -42,7 +42,7 @@ export default class GlobalHotkeysPlugin extends Plugin {
 
     let success = (() => {
       try {
-        return globalShortcut.register(accelerator, () => {
+        return globalShortcut.register(remapHotkey(accelerator), () => {
           const command = app.commands.commands[command_id];
           if (!command) return;
           this.app.setting.close(); // Ensure all modals are closed?
@@ -76,7 +76,7 @@ export default class GlobalHotkeysPlugin extends Plugin {
   async unregisterGlobalShortcut(command_id:string) {
     const accelerator = this.currentlyMapped[command_id];
     if (accelerator) {
-      globalShortcut.unregister(accelerator);
+      globalShortcut.unregister(remapHotkey(accelerator));
       delete this.currentlyMapped[command_id];
     }
   }
@@ -217,10 +217,9 @@ class GlobalShortcutSettingTab extends PluginSettingTab {
         .addText(text => text
                  .setPlaceholder('Hotkey')
                  .setValue(accelerator)
-                 .onChange(async (rawValue) => {
+                 .onChange(async (value) => {
                    const inputEl = setting.components[0].inputEl;
-                   if (rawValue) {
-                     const value = remapHotkey(rawValue)
+                   if (value) {
                      this.plugin.registerGlobalShortcut(cmd, value, async (success) => {
                        if (success) {
                          inputEl.classList.remove('invalid-accelerator');
