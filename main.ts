@@ -4,13 +4,13 @@ const remote = require('electron').remote;
 const globalShortcut = remote.globalShortcut;
 
 const KEY_MAP_MACOS = {
-  'SuperOrControl': 'Control',
-  'SuperOrCtrl': 'Ctrl',
+  'ControlOrSuper': 'Control',
+  'CtrlOrSuper': 'Ctrl',
 };
 
 const KEY_MAP_PC = {
-  'SuperOrControl': 'Super',
-  'SuperOrCtrl': 'Super',
+  'ControlOrSuper': 'Super',
+  'CtrlOrSuper': 'Super',
 };
 
 const KEY_MAP: Record<string, string> = os.platform() === 'darwin' ? KEY_MAP_MACOS : KEY_MAP_PC

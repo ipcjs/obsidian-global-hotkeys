@@ -18,7 +18,7 @@ will perform the specified command. The key combination is specified following
 
 The plugin also defines the following special keys:
 
-`SuperOrControl`(or `SuperOrCtrl` for short): Represents `Control` on macOS and `Windows` on Linxu and Windows.
+`ControlOrSuper`(or `CtrlOrSuper` for short): Represents `Control` on macOS and `Windows` on Linxu and Windows.
 
 ## To-Do
 
